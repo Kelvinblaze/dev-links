@@ -125,7 +125,7 @@ const LoginForm = () => {
           errorMessage={errors.confirm_password}
         />
 
-        <p className="text-bodyS text-grey">
+        <p className="text-sm text-grey">
           Password must contain at least 8 characters
         </p>
 
@@ -139,7 +139,7 @@ const LoginForm = () => {
         </Button>
       </div>
 
-      <p className="text-center text-bodyM text-grey">
+      <p className="text-center text-md text-grey">
         Already have an account?{" "}
         <Link to="/login" className="text-purple">
           Login

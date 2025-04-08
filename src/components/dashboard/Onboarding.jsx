@@ -11,11 +11,11 @@ const Onboarding = () => {
         />
       </div>
 
-      <h5 className="text-headingM font-semibold text-center text-dark-grey">
+      <h5 className="md:text-3xl text-2xl font-semibold text-center text-dark-grey">
         Let’s get you started
       </h5>
       <div className="md:w-4/6 mx-auto">
-        <p className="text-grey text-bodyM text-center">
+        <p className="text-grey text-center">
           Use the “Add new link” button to get started. Once you have more than
           one link, you can reorder and edit them. We’re here to help you share
           your profiles with everyone!

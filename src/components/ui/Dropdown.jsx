@@ -24,7 +24,7 @@ const DropDown = ({
   return (
     <div className="space-y-1 relative">
       {label && (
-        <label htmlFor={name} className="text-bodyS text-dark-grey">
+        <label htmlFor={name} className="text-sm text-dark-grey">
           {label}
         </label>
       )}
@@ -42,7 +42,7 @@ const DropDown = ({
           }`}
         >
           {Icon && <Icon className="w-5 h-5 text-grey mr-2" />}
-          <span className={`text-bodyM text-dark-grey w-full`}>
+          <span className={`text-md text-dark-grey w-full`}>
             {selectedLabel || placeholder}
           </span>
 

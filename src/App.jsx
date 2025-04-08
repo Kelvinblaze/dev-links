@@ -17,6 +17,7 @@ import SignUpPage from "./pages/SignUpPage";
 
 // Dashboard Pages
 import DashboardPage from "./pages/DashboardPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
@@ -37,7 +38,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardPage />} />
-            <Route path="profile" element={<DashboardPage />} />
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Route>
       </Routes>

@@ -8,7 +8,7 @@ const Button = ({
   onClick,
 }) => {
   const baseStyles =
-    "px-6 py-3 rounded-lg text-bodyM font-bold transition disabled:cursor-not-allowed";
+    "px-6 py-3 rounded-lg font-semibold transition disabled:cursor-not-allowed";
   const variants = {
     primary:
       "bg-purple text-white hover:bg-purple-hover disabled:bg-purple/25 disabled:text-white",

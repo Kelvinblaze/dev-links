@@ -18,12 +18,6 @@ export default {
       fontFamily: {
         sans: ['"Instrument Sans"', "sans-serif"],
       },
-      fontSize: {
-        headingM: ["32px", { lineHeight: "150%" }],
-        headingS: ["16px", { lineHeight: "150%" }],
-        bodyM: ["16px", { lineHeight: "150%" }],
-        bodyS: ["12px", { lineHeight: "150%" }],
-      },
       borderRadius: {
         pill: "9999px",
       },

@@ -22,7 +22,7 @@ const Input = ({
     <div className="space-y-1">
       <label
         htmlFor={label}
-        className={`text-bodyS  ${hasError ? "text-red" : "text-dark-grey"}`}
+        className={`text-sm  ${hasError ? "text-red" : "text-dark-grey"}`}
       >
         {label}
       </label>
@@ -40,7 +40,7 @@ const Input = ({
         <input
           type={type}
           placeholder={placeholder}
-          className={`w-full py-2 px-4 focus:outline-none focus:border-none text-bodyM font-normal placeholder:font-normal placeholder:text-dark-grey/50`}
+          className={`w-full py-2 px-4 focus:outline-none focus:border-none text-md font-normal placeholder:font-normal placeholder:text-dark-grey/50`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChange={onChange}
@@ -50,7 +50,7 @@ const Input = ({
         />
 
         {hasError && (
-          <span className="text-bodyS text-red mt-1 flex-none ">
+          <span className="text-sm text-red mt-1 flex-none ">
             {errorMessage}
           </span>
         )}

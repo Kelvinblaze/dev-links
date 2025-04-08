@@ -105,7 +105,7 @@ const LoginForm = () => {
         </Button>
       </div>
 
-      <p className="text-center text-bodyM text-grey">
+      <p className="text-center text-md text-grey">
         Don’t have an account?{" "}
         <Link to="/register" className="text-purple">
           Create account

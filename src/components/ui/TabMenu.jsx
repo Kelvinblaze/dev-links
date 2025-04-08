@@ -11,7 +11,7 @@ const TabMenu = ({ tabs }) => {
         return (
           <Link to={tab.url} key={index}>
             <div
-              className={`text-grey hover:text-purple px-6 py-3 rounded-lg text-headingS font-semibold transition cursor-pointer ${
+              className={`text-grey hover:text-purple px-6 py-3 rounded-lg  font-semibold transition cursor-pointer ${
                 isActive ? "bg-light-purple text-purple" : ""
               }`}
             >
