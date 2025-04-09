@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Input from "../../components/ui/Input";
 import DropDown from "../ui/Dropdown";
 
@@ -20,9 +22,27 @@ import HashnodeIcon from "../icons/HashNodeIcon";
 import StackOverflowIcon from "../icons/StackOverflowIcon";
 
 const LinkInputCard = ({ index, link, handleRemove, handleChange }) => {
+  const [errors, setErrors] = useState({});
+
+  const validateField = (name, value) => {
+    let message = "";
+
+    if (!value.trim()) {
+      message = "Can't be empty.";
+    } else if (name === "url") {
+      const urlRegex = /^(https?:\/\/)?([\w\d-]+\.)+\w{2,}(\/\S*)?$/;
+      if (!urlRegex.test(value)) {
+        message = "Please check the URL";
+      }
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: message }));
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     handleChange(index, name, value);
+    validateField(name, value);
   };
 
   const menuList = [
@@ -113,6 +133,7 @@ const LinkInputCard = ({ index, link, handleRemove, handleChange }) => {
         placeholder={`e.g. https://www.${
           link.platform || "yourplatform"
         }.com/username`}
+        errorMessage={errors.url}
       />
     </div>
   );

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setLinks } from "../store/globalSlice";
 
 import Onboarding from "../components/dashboard/Onboarding";
 
@@ -6,30 +7,27 @@ import Header from "../components/layout/Header";
 import Button from "../components/ui/Button";
 import LinkInputCard from "../components/dashboard/LinkInputCard";
 
+import { PiPlus } from "react-icons/pi";
+
 const DashboardPage = () => {
-  const [links, setLinks] = useState([]);
+  const dispatch = useDispatch();
+  const { links } = useSelector((state) => state.global);
 
   const handleNewLink = () => {
-    setLinks((prevState) => [
-      ...prevState,
-      {
-        platform: "",
-        url: "",
-      },
-    ]);
+    const updatedLinks = [...(links || []), { platform: "", url: "" }];
+    dispatch(setLinks(updatedLinks));
   };
 
   const handleRemoveLink = (index) => {
-    const updateLinks = links.filter((_, i) => i !== index);
-    setLinks(updateLinks);
+    const updatedLinks = [...(links || [])].filter((_, i) => i !== index);
+    dispatch(setLinks(updatedLinks));
   };
 
   const handleLinkChange = (index, field, value) => {
-    setLinks((prevState) =>
-      prevState.map((link, i) =>
-        i === index ? { ...link, [field]: value } : link
-      )
+    const updatedLinks = (links || []).map((link, i) =>
+      i === index ? { ...link, [field]: value } : link
     );
+    dispatch(setLinks(updatedLinks));
   };
 
   return (
@@ -40,8 +38,9 @@ const DashboardPage = () => {
       />
 
       <Button full={true} variant="secondary" onClick={handleNewLink}>
-        <div>
-          <span className="">+ Add new link</span>
+        <div className="flex items-center space-x-2 justify-center">
+          <PiPlus />
+          <span>Add new link</span>
         </div>
       </Button>
 

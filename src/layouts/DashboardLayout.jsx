@@ -1,10 +1,13 @@
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Navbar from "../components/dashboard/Navbar";
 import Button from "../components/ui/Button";
 import DevicePreview from "../components/dashboard/DevicePreview";
 
 const DashboardLayout = () => {
+  const { links } = useSelector((state) => state.global);
+
   return (
     <div className="min-h-screen bg-light-grey flex flex-col">
       {/* Navbar */}
@@ -27,7 +30,7 @@ const DashboardLayout = () => {
             <div className="p-6 border-t flex justify-end">
               <Button
                 variant="primary"
-                disabled={true}
+                disabled={links.length <= 0}
                 className="w-full md:w-auto"
               >
                 Save
