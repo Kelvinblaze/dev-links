@@ -14,7 +14,10 @@ const DashboardPage = () => {
   const { links } = useSelector((state) => state.global);
 
   const handleNewLink = () => {
-    const updatedLinks = [...(links || []), { platform: "", url: "" }];
+    const updatedLinks = [
+      ...(links || []),
+      { platform: "", url: "", color: "", label: "" },
+    ];
     dispatch(setLinks(updatedLinks));
   };
 
@@ -23,10 +26,18 @@ const DashboardPage = () => {
     dispatch(setLinks(updatedLinks));
   };
 
-  const handleLinkChange = (index, field, value) => {
+  const handleLinkChange = (index, field, value, options = {}) => {
     const updatedLinks = (links || []).map((link, i) =>
-      i === index ? { ...link, [field]: value } : link
+      i === index
+        ? {
+            ...link,
+            [field]: value,
+            ...(options.label && { label: options.label }),
+            ...(options.color && { color: options.color }),
+          }
+        : link
     );
+
     dispatch(setLinks(updatedLinks));
   };
 

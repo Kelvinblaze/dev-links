@@ -5,21 +5,7 @@ import DropDown from "../ui/Dropdown";
 
 import { MdOutlineDragHandle } from "react-icons/md";
 import { PiLink } from "react-icons/pi";
-
-import GitHubIcon from "../icons/GithubIcon";
-import FrontendMentorIcon from "../icons/FrontendMentorIcon";
-import TwitterIcon from "../icons/TwitterIcon";
-import LinkedInIcon from "../icons/LinkedInIcon";
-import YouTubeIcon from "../icons/YoutubeIcon";
-import FacebookIcon from "../icons/FacebookIcon";
-import TwitchIcon from "../icons/TwitchIcon";
-import DevtoIcon from "../icons/DevtoIcon";
-import CodewarsIcon from "../icons/CodeWarsIcon";
-import CodepenIcon from "../icons/CodePenIcon";
-import FreeCodeCampIcon from "../icons/FreeCodeCampIcon";
-import GitlabIcon from "../icons/GitLabIcon";
-import HashnodeIcon from "../icons/HashNodeIcon";
-import StackOverflowIcon from "../icons/StackOverflowIcon";
+import iconMap from "../../utils/iconMap";
 
 const LinkInputCard = ({ index, link, handleRemove, handleChange }) => {
   const [errors, setErrors] = useState({});
@@ -45,65 +31,35 @@ const LinkInputCard = ({ index, link, handleRemove, handleChange }) => {
     validateField(name, value);
   };
 
+  const handleDropdownChange = (selectedOption) => {
+    const { label, value, color, icon } = selectedOption.target;
+    handleChange(index, "platform", value, { label, color, icon });
+  };
+
   const menuList = [
-    { label: "GitHub", value: "github", icon: GitHubIcon },
+    { label: "GitHub", value: "github", color: "#1A1A1A" },
     {
       label: "Frontend Mentor",
       value: "frontendmentor",
-      icon: FrontendMentorIcon,
+      color: "#FFFFFF",
     },
-    { label: "Twitter", value: "twitter", icon: TwitterIcon },
-    { label: "LinkedIn", value: "linkedin", icon: LinkedInIcon },
-    { label: "YouTube", value: "youtube", icon: YouTubeIcon },
-    { label: "Facebook", value: "facebook", icon: FacebookIcon },
-    { label: "Twitch", value: "twitch", icon: TwitchIcon },
-    { label: "Dev.to", value: "devto", icon: DevtoIcon },
-    { label: "Codewars", value: "codewars", icon: CodewarsIcon },
-    { label: "Codepen", value: "codepen", icon: CodepenIcon },
-    { label: "freeCodeCamp", value: "freecodecamp", icon: FreeCodeCampIcon },
-    { label: "GitLab", value: "gitlab", icon: GitlabIcon },
-    { label: "Hashnode", value: "hashnode", icon: HashnodeIcon },
+    { label: "Twitter", value: "twitter", color: "#43B7E9" },
+    { label: "LinkedIn", value: "linkedin", color: "#2D68FF" },
+    { label: "YouTube", value: "youtube", color: "#EE3939" },
+    { label: "Facebook", value: "facebook", color: "#2442AC" },
+    { label: "Twitch", value: "twitch", color: "#EE3FC8" },
+    { label: "Dev.to", value: "devto", color: "#333333" },
+    { label: "Codewars", value: "codewars", color: "#8A1A50" },
+    { label: "Codepen", value: "codepen", color: "#000000" },
+    { label: "freeCodeCamp", value: "freecodecamp", color: "#302267" },
+    { label: "GitLab", value: "gitlab", color: "#EB4925" },
+    { label: "Hashnode", value: "hashnode", color: "#0330D1" },
     {
       label: "Stack Overflow",
       value: "stack_overflow",
-      icon: StackOverflowIcon,
+      color: "#EC7100",
     },
   ];
-
-  const dropDownIcon = (platform) => {
-    switch (platform) {
-      case "github":
-        return GitHubIcon;
-      case "frontendmentor":
-        return FrontendMentorIcon;
-      case "twitter":
-        return TwitterIcon;
-      case "linkedin":
-        return LinkedInIcon;
-      case "youtube":
-        return YouTubeIcon;
-      case "facebook":
-        return FacebookIcon;
-      case "twitch":
-        return TwitchIcon;
-      case "devto":
-        return DevtoIcon;
-      case "codewars":
-        return CodewarsIcon;
-      case "codepen":
-        return CodepenIcon;
-      case "freecodecamp":
-        return FreeCodeCampIcon;
-      case "gitlab":
-        return GitlabIcon;
-      case "hashnode":
-        return HashnodeIcon;
-      case "stack_overflow":
-        return StackOverflowIcon;
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className="bg-light-grey lg:p-8 p-5 rounded-lg space-y-5">
@@ -120,9 +76,9 @@ const LinkInputCard = ({ index, link, handleRemove, handleChange }) => {
         placeholder="Select platform"
         name="platform"
         value={link.platform}
-        onChange={handleInputChange}
+        onChange={handleDropdownChange}
         options={menuList}
-        Icon={dropDownIcon(link.platform)}
+        Icon={iconMap[link.platform]}
       />
       <Input
         label="Link"

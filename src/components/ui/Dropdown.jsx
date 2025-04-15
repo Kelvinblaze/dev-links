@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { RxChevronDown, RxChevronUp } from "react-icons/rx";
+import iconMap from "../../utils/iconMap";
 
 const DropDown = ({
   label,
@@ -14,8 +15,8 @@ const DropDown = ({
   const [isFocused, setIsFocused] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  const handleSelect = (optionValue) => {
-    onChange({ target: { name, value: optionValue } }); // simulate a normal event
+  const handleSelect = (option) => {
+    onChange({ target: { ...option, name, value: option.value } });
     setIsActive(false);
   };
 
@@ -55,18 +56,22 @@ const DropDown = ({
 
         {isActive && (
           <div className="absolute z-10 bg-white divide-y rounded-md mt-1 w-full shadow-md max-h-60 overflow-y-auto px-4 border border-borders">
-            {options.map((option) => (
-              <div
-                key={option.value}
-                onClick={() => handleSelect(option.value)}
-                className={`py-3 hover:text-purple cursor-pointer flex items-center space-x-3 ${
-                  value === option.value ? "text-purple font-semibold" : ""
-                }`}
-              >
-                {option.icon && <option.icon className="w-5 h-5 text-grey" />}
-                <span> {option.label}</span>
-              </div>
-            ))}
+            {options.map((option) => {
+              const OptionIcon = iconMap[option.value];
+
+              return (
+                <div
+                  key={option.value}
+                  onClick={() => handleSelect(option)}
+                  className={`py-3 hover:text-purple cursor-pointer flex items-center space-x-3 ${
+                    value === option.value ? "text-purple font-semibold" : ""
+                  }`}
+                >
+                  {OptionIcon && <OptionIcon className="w-5 h-5 text-grey" />}
+                  <span>{option.label}</span>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
