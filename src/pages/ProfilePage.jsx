@@ -11,8 +11,24 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.global);
 
-  const handleImageUpload = (file) => {
-    console.log(file);
+  const imageFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleImageUpload = async (file) => {
+    if (file) {
+      const image = await imageFileToBase64(file);
+      dispatch(setUser({ ...user, photo: image }));
+    } else {
+      dispatch(setUser({ ...user, photo: file }));
+    }
   };
 
   const [errors, setErrors] = useState({});
@@ -50,8 +66,12 @@ const ProfilePage = () => {
     validateField(name, value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <form className="space-y-10">
+    <form onSubmit={handleSubmit} className="space-y-10 p-6">
       {/* Header */}
       <Header
         title="Profile Details"

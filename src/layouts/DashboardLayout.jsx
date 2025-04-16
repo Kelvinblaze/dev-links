@@ -19,7 +19,7 @@ const DashboardLayout = () => {
           </section>
 
           <section className="col-span-1 lg:col-span-7 bg-white rounded-xl flex flex-col h-full max-h-[calc(100vh-100px)]">
-            <div className="p-6 overflow-y-auto flex-1">
+            <div className="overflow-y-auto flex-1">
               <Outlet />
             </div>
           </section>

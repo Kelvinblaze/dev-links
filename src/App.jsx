@@ -19,6 +19,7 @@ import SignUpPage from "./pages/SignUpPage";
 // Dashboard Pages
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
+import PreviewPage from "./pages/PreviewPage";
 
 const App = () => {
   return (
@@ -42,6 +43,8 @@ const App = () => {
               <Route index element={<DashboardPage />} />
               <Route path="profile" element={<ProfilePage />} />
             </Route>
+
+            <Route path="/dashboard/preview" element={<PreviewPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

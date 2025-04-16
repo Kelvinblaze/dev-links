@@ -25,7 +25,13 @@ const DevicePreview = () => {
               {user.photo === null ? (
                 <div className="size-[96px] bg-[#EEEEEE] rounded-full animate-pulse" />
               ) : (
-                <div className="size-[96px]"></div>
+                <div className="size-[96px] rounded-full ">
+                  <img
+                    src={user.photo}
+                    alt={user.firstname + " " + user.lastname}
+                    className="object-cover size-full rounded-full "
+                  />
+                </div>
               )}
 
               <div className="space-y-2 items-center flex flex-col">

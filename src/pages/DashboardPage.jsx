@@ -31,7 +31,10 @@ const DashboardPage = () => {
 
   const handleLinkChange = (index, field, value, options = {}) => {
     // Check if platform already exist before pushing to array
-    if (links.some((link) => link.platform === value)) {
+    if (
+      field === "platform" &&
+      links.some((link, i) => link.platform === value && i !== index)
+    ) {
       // Throw Error that platform already exists
       toast.error("you have already added this platform.");
     } else {
@@ -73,7 +76,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-10 relative">
+    <form onSubmit={handleSubmit} className="space-y-10 relative p-6">
       <Header
         title="Customize your links"
         subtitle="Add/edit/remove links below and then share all your profiles with the world!"
@@ -106,7 +109,7 @@ const DashboardPage = () => {
         <Onboarding />
       )}
 
-      <div className="sticky bottom-0 bg-white p-6 border-t flex justify-end w-full z-10">
+      <div className="sticky bottom-0 left-0 bg-white p-6 border-t flex justify-end w-full z-10">
         <Button
           type="submit"
           variant="primary"

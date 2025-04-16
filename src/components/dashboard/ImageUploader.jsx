@@ -10,6 +10,7 @@ const ImageUploader = ({ label, onChange }) => {
       fileInputRef.current?.click();
     } else {
       setPreview(null);
+      onChange(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = null;
       }
