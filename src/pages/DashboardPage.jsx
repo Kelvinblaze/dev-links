@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useRef } from "react";
 import { setLinks } from "../store/globalSlice";
 
 import Onboarding from "../components/dashboard/Onboarding";
@@ -8,6 +9,8 @@ import Button from "../components/ui/Button";
 import LinkInputCard from "../components/dashboard/LinkInputCard";
 
 import { PiPlus } from "react-icons/pi";
+
+import toast from "react-hot-toast";
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
@@ -27,28 +30,61 @@ const DashboardPage = () => {
   };
 
   const handleLinkChange = (index, field, value, options = {}) => {
-    const updatedLinks = (links || []).map((link, i) =>
-      i === index
-        ? {
-            ...link,
-            [field]: value,
-            ...(options.label && { label: options.label }),
-            ...(options.color && { color: options.color }),
-          }
-        : link
-    );
+    // Check if platform already exist before pushing to array
+    if (links.some((link) => link.platform === value)) {
+      // Throw Error that platform already exists
+      toast.error("you have already added this platform.");
+    } else {
+      const updatedLinks = (links || []).map((link, i) =>
+        i === index
+          ? {
+              ...link,
+              [field]: value,
+              ...(options.label && { label: options.label }),
+              ...(options.color && { color: options.color }),
+            }
+          : link
+      );
 
-    dispatch(setLinks(updatedLinks));
+      dispatch(setLinks(updatedLinks));
+    }
+  };
+
+  const inputRefs = useRef([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const isAllValid = inputRefs.current
+      .map((input) => input?.validate?.())
+      .every((result) => result === true);
+
+    if (!isAllValid) {
+      toast.error("Please check all fields");
+      return;
+    }
+
+    if (links.some((link) => link.platform === "")) {
+      toast.error("Kindly ensure to select a platform for all links");
+      return;
+    }
+
+    // Submit logic to API for proper saving...
   };
 
   return (
-    <div className="space-y-10">
+    <form onSubmit={handleSubmit} className="space-y-10 relative">
       <Header
         title="Customize your links"
         subtitle="Add/edit/remove links below and then share all your profiles with the world!"
       />
 
-      <Button full={true} variant="secondary" onClick={handleNewLink}>
+      <Button
+        full={true}
+        variant="secondary"
+        type="button"
+        onClick={handleNewLink}
+      >
         <div className="flex items-center space-x-2 justify-center">
           <PiPlus />
           <span>Add new link</span>
@@ -61,6 +97,7 @@ const DashboardPage = () => {
             key={idx}
             index={idx}
             link={link}
+            ref={(el) => (inputRefs.current[idx] = el)}
             handleRemove={handleRemoveLink}
             handleChange={handleLinkChange}
           />
@@ -68,7 +105,18 @@ const DashboardPage = () => {
       ) : (
         <Onboarding />
       )}
-    </div>
+
+      <div className="sticky bottom-0 bg-white p-6 border-t flex justify-end w-full z-10">
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={links.length <= 0}
+          className="w-full md:w-auto"
+        >
+          Save
+        </Button>
+      </div>
+    </form>
   );
 };
 

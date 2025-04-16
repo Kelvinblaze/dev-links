@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 // Routes
 import PrivateRoute from "./routes/PrivateRoute";
@@ -21,28 +22,32 @@ import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Root Route */}
-        <Route path="/" element={<IndexRedirect />} />
+    <>
+      <BrowserRouter>
+        <Routes>
+          {/* Root Route */}
+          <Route path="/" element={<IndexRedirect />} />
 
-        {/* Public (Auth) Routes */}
-        <Route element={<PublicRoute />}>
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<SignUpPage />} />
+          {/* Public (Auth) Routes */}
+          <Route element={<PublicRoute />}>
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<SignUpPage />} />
+            </Route>
           </Route>
-        </Route>
 
-        {/* Private (Dashboard) Routes  */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="profile" element={<ProfilePage />} />
+          {/* Private (Dashboard) Routes  */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="profile" element={<ProfilePage />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+
+      <Toaster />
+    </>
   );
 };
 

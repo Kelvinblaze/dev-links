@@ -1,13 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import Navbar from "../components/dashboard/Navbar";
-import Button from "../components/ui/Button";
 import DevicePreview from "../components/dashboard/DevicePreview";
 
 const DashboardLayout = () => {
-  const { links } = useSelector((state) => state.global);
-
   return (
     <div className="min-h-screen bg-light-grey flex flex-col">
       {/* Navbar */}
@@ -25,16 +21,6 @@ const DashboardLayout = () => {
           <section className="col-span-1 lg:col-span-7 bg-white rounded-xl flex flex-col h-full max-h-[calc(100vh-100px)]">
             <div className="p-6 overflow-y-auto flex-1">
               <Outlet />
-            </div>
-
-            <div className="p-6 border-t flex justify-end">
-              <Button
-                variant="primary"
-                disabled={links.length <= 0}
-                className="w-full md:w-auto"
-              >
-                Save
-              </Button>
             </div>
           </section>
         </div>
