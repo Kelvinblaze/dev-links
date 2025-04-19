@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { setLinks } from "../store/globalSlice";
 
 import Onboarding from "../components/dashboard/Onboarding";
@@ -97,6 +98,17 @@ const DashboardPage = () => {
     await saveLinks(links);
   };
 
+  // Handle drag-and-drop reordering
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const reorderedLinks = Array.from(links);
+    const [movedLink] = reorderedLinks.splice(result.source.index, 1);
+    reorderedLinks.splice(result.destination.index, 0, movedLink);
+
+    dispatch(setLinks(reorderedLinks));
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-10 relative p-6">
       {/* Header Section */}
@@ -119,20 +131,42 @@ const DashboardPage = () => {
       </Button>
 
       {/* Links Section */}
-      {links.length > 0 ? (
-        links.map((link, idx) => (
-          <LinkInputCard
-            key={idx}
-            index={idx}
-            link={link}
-            ref={(el) => (inputRefs.current[idx] = el)}
-            handleRemove={handleRemoveLink}
-            handleChange={handleLinkChange}
-          />
-        ))
-      ) : (
-        <Onboarding />
-      )}
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="links">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="space-y-5"
+            >
+              {links.length > 0 ? (
+                links.map((link, idx) => (
+                  <Draggable key={idx} draggableId={`link-${idx}`} index={idx}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <LinkInputCard
+                          index={idx}
+                          link={link}
+                          ref={(el) => (inputRefs.current[idx] = el)}
+                          handleRemove={handleRemoveLink}
+                          handleChange={handleLinkChange}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))
+              ) : (
+                <Onboarding />
+              )}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
 
       {/* Save Button */}
       <div className="sticky bottom-0 left-0 bg-white p-6 border-t flex justify-end w-full z-10">

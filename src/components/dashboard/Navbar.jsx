@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "../layout/Logo";
 import Button from "../ui/Button";
 import TabMenu from "../ui/TabMenu";
@@ -32,12 +33,14 @@ const Navbar = () => {
 
       <TabMenu tabs={Tabs} />
 
-      <Button variant="secondary">
-        <div className="flex items-center space-x-2">
-          <PiEyeBold className="block md:hidden" />
-          <span className="md:block hidden">Preview</span>
-        </div>
-      </Button>
+      <Link to="/dashboard/preview">
+        <Button variant="secondary">
+          <div className="flex items-center space-x-2">
+            <PiEyeBold className="block md:hidden" />
+            <span className="md:block hidden">Preview</span>
+          </div>
+        </Button>
+      </Link>
     </nav>
   );
 };

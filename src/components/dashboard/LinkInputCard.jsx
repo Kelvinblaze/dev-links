@@ -8,7 +8,7 @@ import { PiLink } from "react-icons/pi";
 import iconMap from "../../utils/iconMap";
 
 const LinkInputCard = forwardRef(
-  ({ index, link, handleRemove, handleChange }, ref) => {
+  ({ index, link, handleRemove, handleChange, dragHandleProps }, ref) => {
     const [errors, setErrors] = useState({});
 
     const validateField = (name, value) => {
@@ -79,7 +79,8 @@ const LinkInputCard = forwardRef(
     return (
       <div className="bg-light-grey lg:p-8 p-5 rounded-lg space-y-5">
         <div className="flex justify-between items-center text-grey">
-          <div className="flex items-center space-x-2">
+          {/* Drag List from here */}
+          <div className="flex items-center space-x-2" {...dragHandleProps}>
             <MdOutlineDragHandle />
             <span className="font-bold">Link #{index + 1}</span>
           </div>

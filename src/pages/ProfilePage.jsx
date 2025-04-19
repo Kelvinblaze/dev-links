@@ -115,6 +115,7 @@ const ProfilePage = () => {
         </div>
         <div className="md:col-span-8 col-span-12">
           <ImageUploader
+            preview={user.photo}
             label="Image must be below 1024x1024px. Use PNG or JPG format."
             onChange={handleImageUpload}
           />

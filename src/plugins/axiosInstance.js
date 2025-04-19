@@ -8,6 +8,12 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
+const Logout = () => {
+  removeToken();
+  persistor.purge();
+  window.location.href = "/login"; // Redirect to login page
+};
+
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getToken(); // Get token from localStorage
@@ -18,8 +24,7 @@ axiosInstance.interceptors.request.use(
 
       if (decodedToken.exp < currentTime) {
         // Token has expired
-        removeToken();
-        persistor.purge();
+        Logout();
         throw new Error("Token has expired. Please log in again.");
       }
 
@@ -29,6 +34,32 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      // Handle specific error responses
+      switch (error.response.status) {
+        case 401:
+          // Unauthorized, handle token expiration or invalid token
+          Logout();
+          break;
+        case 403:
+          Logout();
+          break;
+        case 404:
+          // Not Found, handle resource not found
+          break;
+        default:
+          break;
+      }
+    }
     return Promise.reject(error);
   }
 );

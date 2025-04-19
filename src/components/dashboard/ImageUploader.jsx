@@ -1,15 +1,13 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { PiImage } from "react-icons/pi";
 
-const ImageUploader = ({ label, onChange }) => {
+const ImageUploader = ({ label, onChange, preview }) => {
   const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState(null);
 
   const handleClick = () => {
-    if (preview === null) {
+    if (!preview) {
       fileInputRef.current?.click();
     } else {
-      setPreview(null);
       onChange(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = null;
@@ -22,7 +20,6 @@ const ImageUploader = ({ label, onChange }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setPreview(reader.result);
         if (onChange) onChange(file);
       };
       reader.readAsDataURL(file);
