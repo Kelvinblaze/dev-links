@@ -1,9 +1,35 @@
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import Navbar from "../components/dashboard/Navbar";
 import DevicePreview from "../components/dashboard/DevicePreview";
 
+import axiosInstance from "../plugins/axiosInstance";
+import { setUser, setLinks } from "../store/globalSlice"; // Import Redux actions
+
 const DashboardLayout = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get("/user"); // Replace with your API endpoint
+        const { success, data } = response.data;
+
+        if (success) {
+          // Update Redux state with user and links data
+          dispatch(setUser(data));
+          dispatch(setLinks(data.links));
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [dispatch]); // Run only once on mount
+
   return (
     <div className="min-h-screen bg-light-grey flex flex-col">
       {/* Navbar */}

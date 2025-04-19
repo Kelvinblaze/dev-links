@@ -6,10 +6,15 @@ import Header from "../components/layout/Header";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import ImageUploader from "../components/dashboard/ImageUploader";
+import axiosInstance from "../plugins/axiosInstance";
+import { toast } from "react-hot-toast";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.global);
+
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const imageFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -31,13 +36,11 @@ const ProfilePage = () => {
     }
   };
 
-  const [errors, setErrors] = useState({});
-
   const validateField = (name, value) => {
     let message = "";
     let isValid = true;
 
-    if (name === "firstname" || name === "lastname") {
+    if (name === "firstName" || name === "lastName") {
       if (!value.trim()) {
         message = "Can't be empty.";
         isValid = false;
@@ -66,8 +69,35 @@ const ProfilePage = () => {
     validateField(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const updateUserProfile = async (userData) => {
+    try {
+      setLoading(true);
+
+      const response = await axiosInstance.put("user/update", {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        username: userData.username,
+        email: userData.email,
+        photo: userData.photo,
+      });
+
+      const { success, data, message } = response.data;
+
+      if (success) {
+        dispatch(setUser(data));
+        toast.success(message);
+      }
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      toast.error("Failed to update profile.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await updateUserProfile(user);
   };
 
   return (
@@ -99,10 +129,10 @@ const ProfilePage = () => {
         <div className="md:col-span-8 col-span-12">
           <Input
             placeholder="Ben"
-            name="firstname"
-            value={user.firstname}
+            name="firstName"
+            value={user.firstName}
             onChange={handleInputChange}
-            errorMessage={errors.firstname}
+            errorMessage={errors.firstName}
           />
         </div>
 
@@ -112,10 +142,10 @@ const ProfilePage = () => {
         <div className="md:col-span-8 col-span-12">
           <Input
             placeholder="Wright"
-            name="lastname"
-            value={user.lastname}
+            name="lastName"
+            value={user.lastName}
             onChange={handleInputChange}
-            errorMessage={errors.lastname}
+            errorMessage={errors.lastName}
           />
         </div>
 
@@ -136,7 +166,12 @@ const ProfilePage = () => {
 
       {/* Submission Button */}
       <div className="sticky bottom-0 bg-white p-6 border-t flex justify-end w-full z-10">
-        <Button type="submit" variant="primary" className="w-full md:w-auto">
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full md:w-auto"
+          loading={loading}
+        >
           Save
         </Button>
       </div>

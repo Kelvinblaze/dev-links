@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Components
 import Header from "../layout/Header";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 
+import axiosInstance from "../../plugins/axiosInstance";
+import { toast } from "react-hot-toast";
+
 // Icons
 import { PiEnvelopeSimpleFill } from "react-icons/pi";
 import { PiLockKeyFill } from "react-icons/pi";
 
-const LoginForm = () => {
+const SignupForm = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,6 +23,8 @@ const LoginForm = () => {
     password: "",
     confirm_password: "",
   });
+
+  const navigate = useNavigate();
 
   const validateField = (name, value) => {
     let message = "";
@@ -76,7 +82,31 @@ const LoginForm = () => {
     errors.password.length > 0 ||
     errors.confirm_password.length > 0;
 
-  const handleSignUp = (e) => {
+  const SignupUser = async (email, password) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post("auth/register", {
+        email,
+        password,
+      });
+
+      const { success, message } = await response.data;
+
+      if (success) {
+        toast.success(message ?? "Account has been successfully created.");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `Error: ${error?.response?.data?.message ?? "An error occurred"}`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     validateField("email", email);
@@ -85,8 +115,7 @@ const LoginForm = () => {
 
     if (hasErrors) return;
 
-    console.log("Logging in...");
-    // your login logic here
+    await SignupUser(email, password);
   };
 
   return (
@@ -134,6 +163,7 @@ const LoginForm = () => {
           variant="primary"
           full={true}
           disabled={hasErrors}
+          loading={loading}
         >
           Create new account
         </Button>
@@ -149,4 +179,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

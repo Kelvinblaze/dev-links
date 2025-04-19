@@ -1,3 +1,5 @@
+import { PiCircle } from "react-icons/pi";
+
 const Button = ({
   children,
   variant = "primary",
@@ -6,6 +8,7 @@ const Button = ({
   type,
   className,
   onClick,
+  loading,
 }) => {
   const baseStyles =
     "px-6 py-3 rounded-lg font-semibold transition disabled:cursor-not-allowed";
@@ -21,11 +24,17 @@ const Button = ({
       className={`${baseStyles} ${variants[variant]} ${
         full ? "w-full" : ""
       } ${className}`}
-      disabled={disabled}
+      disabled={loading || disabled}
       type={type}
       onClick={onClick}
     >
-      {children}
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <PiCircle className="animate-spin text-xl" />
+        </div>
+      ) : (
+        children
+      )}
     </button>
   );
 };

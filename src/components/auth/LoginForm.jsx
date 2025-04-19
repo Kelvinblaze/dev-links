@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import axiosInstance from "../../plugins/axiosInstance";
+import { toast } from "react-hot-toast";
+
+import { useDispatch } from "react-redux";
+import { setUser, setLinks, setToken } from "../../store/globalSlice";
 
 // Components
 import Header from "../layout/Header";
@@ -10,9 +16,12 @@ import Button from "../ui/Button";
 import { PiEnvelopeSimpleFill, PiLockKeyFill } from "react-icons/pi";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validateField = (name, value) => {
     let message = "";
@@ -55,7 +64,41 @@ const LoginForm = () => {
     errors.email.length > 0 ||
     errors.password.length >= 8;
 
-  const handleLogin = (e) => {
+  const LoginUser = async (email, password) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post("auth/login", {
+        email,
+        password,
+      });
+
+      const { success, data, message } = await response.data;
+
+      if (success) {
+        toast.success(message);
+        console.log(data);
+        // Set token
+        localStorage.setItem("dv-token", data.token);
+
+        // Set redux store for token , user and links
+        dispatch(setUser(data.user));
+        dispatch(setToken(data.token));
+        dispatch(setLinks(data.user.links));
+
+        // Redirect to dashboard or home page
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `Login error: ${error?.response?.data?.message ?? "An error occurred"}`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     validateField("email", email);
@@ -63,8 +106,7 @@ const LoginForm = () => {
 
     if (hasErrors) return;
 
-    console.log("Logging in...");
-    // your login logic here
+    await LoginUser(email, password);
   };
 
   return (
@@ -100,6 +142,7 @@ const LoginForm = () => {
           variant="primary"
           full={true}
           disabled={hasErrors}
+          loading={loading}
         >
           Login
         </Button>

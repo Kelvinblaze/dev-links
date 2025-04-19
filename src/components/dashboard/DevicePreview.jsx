@@ -8,7 +8,7 @@ import SkeletonText from "../skeletons/SkeletonText";
 import LinkPreview from "../dashboard/LinkPreview";
 
 const DevicePreview = () => {
-  const { links, user } = useSelector((state) => state.global);
+  const { user, links } = useSelector((state) => state.global);
   return (
     <div
       className="relative h-[600px] w-[300px] bg-no-repeat bg-center bg-contain mx-auto"
@@ -22,13 +22,13 @@ const DevicePreview = () => {
           <section className="w-full space-y-10">
             {/* Profile Section */}
             <div className="w-full h-full flex flex-col items-center justify-center space-y-5">
-              {user.photo === null ? (
+              {!user?.photo ? (
                 <div className="size-[96px] bg-[#EEEEEE] rounded-full animate-pulse" />
               ) : (
                 <div className="size-[96px] rounded-full ">
                   <img
                     src={user.photo}
-                    alt={user.firstname + " " + user.lastname}
+                    alt={user.firstName + " " + user.lastName}
                     className="object-cover size-full rounded-full "
                   />
                 </div>
@@ -36,11 +36,11 @@ const DevicePreview = () => {
 
               <div className="space-y-2 items-center flex flex-col">
                 <SkeletonText
-                  text={user.firstname + " " + user.lastname}
+                  text={(user?.firstName || "") + " " + (user?.lastName || "")}
                   className="font-semibold text-dark-grey"
                 />
                 <SkeletonText
-                  text={user.email}
+                  text={user?.email}
                   width={72}
                   height={8}
                   className="grey text-xs"

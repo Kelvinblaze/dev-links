@@ -1,14 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: {
-    photo: null,
-    firstname: "",
-    lastname: "",
-    email: "",
-  },
+  user: null,
   token: null,
-  isLoggedIn: null,
   links: [],
 };
 
@@ -25,12 +19,13 @@ const globalSlice = createSlice({
     setToken(state, action) {
       state.token = action.payload;
     },
-    setIsLoggedIn(state, action) {
-      state.isLoggedIn = action.payload;
+    resetState(state) {
+      state.user = null;
+      state.token = null;
+      state.links = [];
     },
   },
 });
 
-export const { setUser, setLinks, setToken, setIsLoggedIn } =
-  globalSlice.actions;
+export const { setUser, setLinks, setToken, resetState } = globalSlice.actions;
 export default globalSlice.reducer;

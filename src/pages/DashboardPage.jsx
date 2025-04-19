@@ -1,21 +1,24 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { setLinks } from "../store/globalSlice";
 
 import Onboarding from "../components/dashboard/Onboarding";
-
 import Header from "../components/layout/Header";
 import Button from "../components/ui/Button";
 import LinkInputCard from "../components/dashboard/LinkInputCard";
 
+import axiosInstance from "../plugins/axiosInstance";
 import { PiPlus } from "react-icons/pi";
-
 import toast from "react-hot-toast";
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
   const { links } = useSelector((state) => state.global);
 
+  const [loading, setLoading] = useState(false);
+  const inputRefs = useRef([]);
+
+  // Add a new link
   const handleNewLink = () => {
     const updatedLinks = [
       ...(links || []),
@@ -24,19 +27,19 @@ const DashboardPage = () => {
     dispatch(setLinks(updatedLinks));
   };
 
+  // Remove a link
   const handleRemoveLink = (index) => {
     const updatedLinks = [...(links || [])].filter((_, i) => i !== index);
     dispatch(setLinks(updatedLinks));
   };
 
+  // Handle changes to a link
   const handleLinkChange = (index, field, value, options = {}) => {
-    // Check if platform already exist before pushing to array
     if (
       field === "platform" &&
       links.some((link, i) => link.platform === value && i !== index)
     ) {
-      // Throw Error that platform already exists
-      toast.error("you have already added this platform.");
+      toast.error("You have already added this platform.");
     } else {
       const updatedLinks = (links || []).map((link, i) =>
         i === index
@@ -48,14 +51,33 @@ const DashboardPage = () => {
             }
           : link
       );
-
       dispatch(setLinks(updatedLinks));
     }
   };
 
-  const inputRefs = useRef([]);
+  // Save links to the API
+  const saveLinks = async (links) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.put("user/links", { links });
+      const { success, data } = response.data;
 
-  const handleSubmit = (e) => {
+      if (success) {
+        dispatch(setLinks(data.links));
+        toast.success("Links saved successfully!");
+      } else {
+        toast.error("Failed to save links.");
+      }
+    } catch (error) {
+      console.error("Error saving links:", error);
+      toast.error("Failed to save links.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isAllValid = inputRefs.current
@@ -72,16 +94,18 @@ const DashboardPage = () => {
       return;
     }
 
-    // Submit logic to API for proper saving...
+    await saveLinks(links);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-10 relative p-6">
+      {/* Header Section */}
       <Header
         title="Customize your links"
         subtitle="Add/edit/remove links below and then share all your profiles with the world!"
       />
 
+      {/* Add New Link Button */}
       <Button
         full={true}
         variant="secondary"
@@ -94,6 +118,7 @@ const DashboardPage = () => {
         </div>
       </Button>
 
+      {/* Links Section */}
       {links.length > 0 ? (
         links.map((link, idx) => (
           <LinkInputCard
@@ -109,12 +134,14 @@ const DashboardPage = () => {
         <Onboarding />
       )}
 
+      {/* Save Button */}
       <div className="sticky bottom-0 left-0 bg-white p-6 border-t flex justify-end w-full z-10">
         <Button
           type="submit"
           variant="primary"
           disabled={links.length <= 0}
           className="w-full md:w-auto"
+          loading={loading}
         >
           Save
         </Button>
