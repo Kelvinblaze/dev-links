@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 // UI Components
 import Button from "../components/ui/Button";
+import DevicePreviewScreen from "../components/dashboard/DevicePreviewScreen";
+
+import { useSelector } from "react-redux";
 
 const PreviewPage = () => {
   const navigate = useNavigate(); // Initialize navigate function
-
+  const { user } = useSelector((state) => state.global);
   return (
-    <div className="min-h-screen bg-light-grey flex flex-col">
+    <div className="min-h-screen h-max bg-light-grey flex flex-col">
       <section className="bg-purple rounded-b-xl">
         <div className="px-4 md:px-6 lg:px-10 py-4 md:py-6 lg:py-10 min-h-[40vh]">
           <div className="bg-white rounded-lg flex justify-between p-6 md:p-4">
@@ -24,6 +27,11 @@ const PreviewPage = () => {
       </section>
 
       {/* Main content */}
+      <section className="absolute top-20 left-0 w-full h-full flex items-center justify-center">
+        <div className="h-max min-w-[350px] bg-white rounded-xl w-max p-10 shadow-xl overflow-y-scroll">
+          <DevicePreviewScreen user={user} links={user.links} />
+        </div>
+      </section>
     </div>
   );
 };
