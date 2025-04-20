@@ -35,6 +35,8 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<SignUpPage />} />
             </Route>
+
+            <Route path="/preview/:id" element={<PreviewPage />} />
           </Route>
 
           {/* Private (Dashboard) Routes  */}
@@ -43,8 +45,6 @@ const App = () => {
               <Route index element={<DashboardPage />} />
               <Route path="profile" element={<ProfilePage />} />
             </Route>
-
-            <Route path="/dashboard/preview" element={<PreviewPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

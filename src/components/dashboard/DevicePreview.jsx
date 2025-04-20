@@ -15,7 +15,7 @@ const DevicePreview = () => {
       {/* screen area */}
       <div className="absolute top-[60px] left-[25px] w-[250px] h-[450px] overflow-y-scroll bg-white overflow-hidden rounded-[20px] p-5">
         <div className="w-full">
-          <DevicePreviewScreen user={user} links={links} />
+          <DevicePreviewScreen user={user} links={links}  />
         </div>
       </div>
     </div>

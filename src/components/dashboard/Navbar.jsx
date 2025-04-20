@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import Logo from "../layout/Logo";
 import Button from "../ui/Button";
 import TabMenu from "../ui/TabMenu";
@@ -22,6 +24,8 @@ const Navbar = () => {
     },
   ];
 
+  const { user } = useSelector((state) => state.global);
+
   return (
     <nav className="flex items-center justify-between bg-white p-5 rounded-lg">
       <div className="md:hidden block">
@@ -33,7 +37,7 @@ const Navbar = () => {
 
       <TabMenu tabs={Tabs} />
 
-      <Link to="/dashboard/preview">
+      <Link to={`/preview/${user?._id}`}>
         <Button variant="secondary">
           <div className="flex items-center space-x-2">
             <PiEyeBold className="block md:hidden" />

@@ -38,7 +38,7 @@ const DevicePreviewScreen = ({ user, links }) => {
       <div className="w-full h-full flex flex-col items-center justify-center space-y-5">
         {links.length > 0
           ? links.map((link, i) => <LinkPreview key={i} link={link} />)
-          : Array.from({ length: 8 }).map((_, i) => (
+          : Array.from({ length: 4 }).map((_, i) => (
               <SkeletonDeviceLinks key={i} />
             ))}
       </div>
