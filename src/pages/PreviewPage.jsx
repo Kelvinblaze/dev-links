@@ -6,10 +6,19 @@ import Button from "../components/ui/Button";
 import DevicePreviewScreen from "../components/dashboard/DevicePreviewScreen";
 
 import { useSelector } from "react-redux";
-
+import { toast } from "react-hot-toast";
 const PreviewPage = () => {
   const navigate = useNavigate(); // Initialize navigate function
   const { user } = useSelector((state) => state.global);
+
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/preview/${user._id}`;
+    navigator.clipboard.writeText(link).then(() => {
+      toast.success("The link has been copied to your clipboard!", {
+        icon: "🔗",
+      });
+    });
+  };
   return (
     <div className="min-h-screen h-max bg-light-grey flex flex-col">
       <section className="bg-purple rounded-b-xl">
@@ -21,7 +30,9 @@ const PreviewPage = () => {
             </Button>
 
             {/* Share Link Button */}
-            <Button variant="primary">Share Link</Button>
+            <Button variant="primary" onClick={handleCopyLink}>
+              Share Link
+            </Button>
           </div>
         </div>
       </section>
