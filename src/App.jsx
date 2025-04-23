@@ -14,7 +14,7 @@ import IndexRedirect from "./pages/IndexRedirect";
 
 // Auth Pages
 import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
+import SignupPage from "./pages/SignupPage";
 
 // Dashboard Pages
 import DashboardPage from "./pages/DashboardPage";
@@ -33,7 +33,7 @@ const App = () => {
           <Route element={<PublicRoute />}>
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<SignUpPage />} />
+              <Route path="/register" element={<SignupPage />} />
             </Route>
 
             <Route path="/preview/:id" element={<PreviewPage />} />

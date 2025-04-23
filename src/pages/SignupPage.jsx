@@ -1,6 +1,6 @@
 import SignupForm from "../components/auth/SignupForm";
 
-const SignUpPage = () => {
+const SignupPage = () => {
   return (
     <section className="bg-white rounded-lg w-full md:p-8">
       <SignupForm />
@@ -8,4 +8,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignupPage;
