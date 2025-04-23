@@ -9,6 +9,7 @@ const Button = ({
   className,
   onClick,
   loading,
+  ...rest
 }) => {
   const baseStyles =
     "px-6 py-3 rounded-lg font-semibold transition disabled:cursor-not-allowed";
@@ -21,6 +22,7 @@ const Button = ({
 
   return (
     <button
+      {...rest}
       className={`${baseStyles} ${variants[variant]} ${
         full ? "w-full" : ""
       } ${className}`}
