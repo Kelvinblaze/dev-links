@@ -92,6 +92,7 @@ const LoginForm = () => {
       toast.error(
         `Login error: ${error?.response?.data?.message ?? "An error occurred"}`
       );
+      return;
     } finally {
       setLoading(false);
     }
