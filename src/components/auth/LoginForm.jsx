@@ -62,7 +62,7 @@ const LoginForm = () => {
     !email.trim() ||
     !password.trim() ||
     errors.email.length > 0 ||
-    errors.password.length >= 8;
+    errors.password.length > 0;
 
   const LoginUser = async (email, password) => {
     try {
@@ -76,7 +76,7 @@ const LoginForm = () => {
 
       if (success) {
         toast.success(message);
-        console.log(data);
+
         // Set token
         localStorage.setItem("dv-token", data.token);
 
@@ -89,7 +89,6 @@ const LoginForm = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      console.log(error);
       toast.error(
         `Login error: ${error?.response?.data?.message ?? "An error occurred"}`
       );
