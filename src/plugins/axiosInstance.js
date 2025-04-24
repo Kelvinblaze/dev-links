@@ -48,10 +48,8 @@ axiosInstance.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           // Unauthorized, handle token expiration or invalid token
-          Logout();
           break;
         case 403:
-          Logout();
           break;
         case 404:
           // Not Found, handle resource not found

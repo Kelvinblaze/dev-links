@@ -36,7 +36,7 @@ const Input = ({
             : "border-borders"
         }`}
       >
-        {Icon && <Icon className="w-5 h-5 text-grey" />}
+        {Icon && <Icon className="w-5 h-5 text-grey flex-none" />}
         <input
           type={type}
           placeholder={placeholder}

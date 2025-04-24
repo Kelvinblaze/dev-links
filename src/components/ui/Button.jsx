@@ -1,4 +1,4 @@
-import { PiCircle } from "react-icons/pi";
+import { TbLoader3 } from "react-icons/tb";
 
 const Button = ({
   children,
@@ -31,8 +31,9 @@ const Button = ({
       onClick={onClick}
     >
       {loading ? (
-        <div className="flex justify-center items-center">
-          <PiCircle className="animate-spin text-xl" />
+        <div className="flex justify-center items-center space-x-2">
+          <TbLoader3 className="animate-spin text-xl" />
+          <span className="italic">Loading...</span>
         </div>
       ) : (
         children
