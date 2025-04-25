@@ -37,7 +37,7 @@ const Navbar = () => {
 
       <TabMenu tabs={Tabs} />
 
-      <Link to={`/preview/${user?._id}`}>
+      <Link to={`/${user.username}`}>
         <Button variant="secondary">
           <div className="flex items-center space-x-2">
             <PiEyeBold className="block md:hidden" />

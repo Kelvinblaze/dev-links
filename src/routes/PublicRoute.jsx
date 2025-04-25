@@ -5,7 +5,7 @@ import { isAuthenticated } from "../lib/auth";
 const PublicRoute = () => {
   if (
     isAuthenticated() &&
-    location.pathname !== `/preview/${location.pathname.split("/")[2]}`
+    location.pathname !== `/${location.pathname.split("/")[1]}`
   ) {
     return <Navigate to="/dashboard" replace />;
   }

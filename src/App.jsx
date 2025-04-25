@@ -15,6 +15,7 @@ import IndexRedirect from "./pages/IndexRedirect";
 // Auth Pages
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 // Dashboard Pages
 import DashboardPage from "./pages/DashboardPage";
@@ -34,9 +35,10 @@ const App = () => {
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<SignupPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             </Route>
 
-            <Route path="/preview/:id" element={<PreviewPage />} />
+            <Route path="/:username" element={<PreviewPage />} />
           </Route>
 
           {/* Private (Dashboard) Routes  */}

@@ -10,14 +10,14 @@ import { toast } from "react-hot-toast";
 import { getToken } from "../utils/token";
 const PreviewPage = () => {
   const navigate = useNavigate(); // Initialize navigate function
-  const { id } = useParams(); // Get the id from the URL
+  const { username } = useParams(); // Get the username from the URL
 
   const [user, setUser] = useState(null);
   const [links, setLinks] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/preview/${id}`;
+    const link = `${window.location.origin}/${username.toLowerCase()}`;
     navigator.clipboard.writeText(link).then(() => {
       toast.success("The link has been copied to your clipboard!", {
         icon: "🔗",
@@ -33,7 +33,7 @@ const PreviewPage = () => {
     // Fetch user and links using the id from the URL
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`user/${id}`);
+        const response = await axiosInstance.get(`user/${username}`);
         const { success, data } = await response.data;
 
         if (success) {
@@ -45,10 +45,10 @@ const PreviewPage = () => {
       }
     };
 
-    if (id) {
+    if (username) {
       fetchData();
     }
-  }, [id]);
+  }, [username]);
 
   return (
     <div className="min-h-screen h-max bg-light-grey flex flex-col">

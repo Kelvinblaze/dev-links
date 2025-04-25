@@ -40,7 +40,7 @@ const ProfilePage = () => {
     let message = "";
     let isValid = true;
 
-    if (name === "firstName" || name === "lastName") {
+    if (name === "firstName" || name === "lastName" || name === "username") {
       if (!value.trim()) {
         message = "Can't be empty.";
         isValid = false;
@@ -129,7 +129,7 @@ const ProfilePage = () => {
         </div>
         <div className="md:col-span-8 col-span-12">
           <Input
-            placeholder="Ben"
+            placeholder="Alex"
             name="firstName"
             value={user.firstName}
             onChange={handleInputChange}
@@ -147,6 +147,19 @@ const ProfilePage = () => {
             value={user.lastName}
             onChange={handleInputChange}
             errorMessage={errors.lastName}
+          />
+        </div>
+
+        <div className="md:col-span-4 col-span-12">
+          <p className="text-grey">Username*</p>
+        </div>
+        <div className="md:col-span-8 col-span-12">
+          <Input
+            placeholder="alexwright"
+            name="username"
+            value={user.username}
+            onChange={handleInputChange}
+            errorMessage={errors.username}
           />
         </div>
 
