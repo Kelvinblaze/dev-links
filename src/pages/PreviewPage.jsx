@@ -33,7 +33,7 @@ const PreviewPage = () => {
     // Fetch user and links using the id from the URL
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`user/${username}`);
+        const response = await axiosInstance.get(`user/username/${username}`);
         const { success, data } = await response.data;
 
         if (success) {
